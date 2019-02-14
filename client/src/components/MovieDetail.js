@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Row, Col } from 'reactstrap'
+import { Container, Row, Col, Button } from 'reactstrap'
 import CellDetail from './CellDetail'
 import style from '../style/MovieDetail.css'
 
@@ -11,24 +11,39 @@ class MovieDetail extends CellDetail {
     document.documentElement.style.setProperty('--background-image', 'url(' + data.backdrop_path + ')')
     
     return (
-      <div id='CellDetailDiv' className={style.cellDetailDiv}>
-        <li id='CellDetail' key='CellDetail' className={style.cellDetail}>
-          <div id='CellDetail_left'className={style.cellDetailLeft}>
-            <a id='CellDetailImageLink' className={style.imageLink} href={data.link}>
-              <img id='CellDetailImage' className={style.cellDetailImage} src={data.poster_path}/>
-            </a>
+      <div id='CellDetailDiv' className={style.banner}>
+        <div className={style.bannerInfo}>
+          <h1>
+            {data.title}
+          </h1>
+          <div className={style.bannerInfoDetails}>
+            <span className={style.green}>{data.vote_average * 10 + "% Match"}</span>
+            <span>{parseInt(data.release_date)}</span>
+            <span className={style.border}>R</span>
+            <span>{data.runtime}</span>
+            <br />
+            <br />
+            <p>
+              {data.overview} 
+            </p>
+            <Button color="danger" size="lg">PLAY</Button>{' '}
           </div>
-          <div id='CellDetail_right' className={style.cellDetailRight}>
-            <div id='CellDetail_close' className={style.cellDetailClose} onClick={this.closeCellDetail.bind(this)}>&#10006;</div>
-            <div id='cellDetailPlayerDiv' className={style.cellDetailPlayerDiv}>
-              <video id='cellDetailPlayer' className={style.cellDetailPlayer} controls controlsList='nodownload'>
-                <source src={data.url_path} type='video/mp4'/>
-              </video>
-            </div>
-            <div id='CellDetailTitle' className={style.cellDetailTitle}> {title} </div>
-            <div id='CellDetailDescription' className={style.cellDetailDescription}> {data.overview}</div>
-          </div>
-        </li>
+        </div>
+        <div className={style.bannerImg}>
+        </div>
+        <div className={style.bannerTabs}>
+          <button
+            className={style.bannerTabsButtonActive}
+          >
+            OVERVIEW
+          </button>
+          <button className={style.bannerTabsButton}>
+            WATCH
+          </button>
+          <button className={style.bannerTabsButton}>
+            DETAILS
+          </button>
+        </div> 
       </div>
     )
 

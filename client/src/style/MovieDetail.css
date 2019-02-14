@@ -1,3 +1,97 @@
+body {
+  background-color: #a3d5d3;
+}
+
+.banner {
+  height: 0px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: auto 100px;
+  grid-template-areas:
+    "info img"
+    "tabs tabs";
+  -webkit-transition: height .5s;
+  transition: height .5s;
+  overflow: hidden;
+}
+
+/* banner__info start */
+.banner-info {
+  grid-area: info;
+  background: #111;
+  color: #ffffff;
+  text-align: left;
+  padding-left: 20px;
+}
+.banner-info-details {
+  font-weight: bold;
+}
+.banner-info-details span {
+  margin: 0 2px 5px 0;
+  padding: 5px;
+}
+.banner-info-details p {
+  font-weight: normal;
+  color: #888;
+}
+/* banner__info end */
+
+/* banner__img start */
+.banner-img {
+  grid-area: img;
+  /*background: url('http://www.baltana.com/files/wallpapers-5/Mountain-Widescreen-Wallpapers-15224.jpg');*/
+  background-image: var(--background-image);
+  background-size: cover;
+  background-position: center;
+  box-shadow: inset 100px 0 70px -2px #111
+}
+/* banner__img end */
+
+/* banner__tabs start */
+.banner-tabs {
+  grid-area: tabs;
+  background: #111;
+  justify-content: center;
+  align-items: flex-end;
+  display: flex;
+}
+.banner-tabs-button {
+  background: none;
+  color: #f1f1f1;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+  margin: 0 20px;
+  font-size: 18px;
+  border: none;
+  border-bottom: solid 4px rgba(0,0,0,0);
+  padding: 10px;
+  opacity: 0.7;
+}
+.banner-tabs-button-active {
+  background: none;
+  color: #f1f1f1;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+  margin: 0 20px;
+  font-size: 18px;
+  border: none;
+  padding: 10px;
+  border-bottom: solid 4px red;
+  opacity: 1;
+}
+/* banner__tabs end */
+
+/* misc styles start */
+.green {
+  color: #32c766;
+}
+.border {
+  border: solid 1px #333333;
+}
+/* misc styles end */
+
+
 /* MovieDetail */
 :root {
   --background-image: none;

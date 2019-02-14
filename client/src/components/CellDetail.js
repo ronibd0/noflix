@@ -14,23 +14,22 @@ class CellDetail extends React.Component {
 
   componentDidUpdate(prevProps, prevState){
     var wrapper = document.getElementById('CellDetailDiv')
-    var detail = document.getElementById('CellDetail')
 
-    if (this.state.selected_element && wrapper && detail) {
+    if (this.state.selected_element && wrapper) {
       if (this.props.selected_element === prevProps.selected_element) {
-        wrapper.clientHeight ? wrapper.style.height = 0 : wrapper.style.height = detail.clientHeight + 'px'
+        wrapper.clientHeight ? wrapper.style.height = 0 : wrapper.style.height = '600px'
       } else {
         wrapper.style.height = 0
         this.insertAdjacentCellDetail(this.state.selected_element)
-        wrapper.style.height = detail.clientHeight + 'px'
+        wrapper.style.height = '600px'
       }
     } else {
       wrapper.style.height = 0
     }
 
-    if (this.state.selected_element && document.getElementById('cellDetailPlayer')) {
-      document.getElementById('cellDetailPlayer').load();
-    }
+    // if (this.state.selected_element && document.getElementById('cellDetailPlayer')) {
+    //   document.getElementById('cellDetailPlayer').load();
+    // }
   }
 
   componentWillReceiveProps(nextProps, nextState) {
