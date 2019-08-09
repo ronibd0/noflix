@@ -16,10 +16,12 @@ var config = yaml.safeLoad(fs.readFileSync('./config.yml'));
 var moviesClient = new lib.ApiClient(config.movies.api, config.movies.key, true);
 var musicClient = new lib.ApiClient(config.music.api, config.music.key, true);
 var tvClient = new lib.ApiClient(config.tv.api, config.tv.key, true);
+var booksClient = new lib.ApiClient(config.books.api, config.books.key, true);
 
 var moviesData = require('./movies.json');
 var musicData = require('./music.json'); 
 var tvData = require('./tv.json'); 
+var booksData = require('./books.json');
 
 // Serve the static files from the React app
 if (process.env.NODE_ENV == 'prod'){
@@ -52,6 +54,10 @@ app.get('/api/tv', (req, res) => {
   res.json(tvData.tv)
 });
 
+app.get('/api/books', (req, res) => {
+  res.json(booksData.books);
+});
+
 app.get('/api/movies/:id', function(req, res) {
   var movie = _.where(moviesData.movies, {id: parseInt(req.params.id)});
   res.json(movie);
@@ -65,6 +71,11 @@ app.get('/api/music/albums/:id', function(req, res) {
 app.get('/api/tv/seasons/:id', function(req, res) {
   var season = _.where(tvData.tv, {id: req.params.id});
   res.json(season);
+});
+
+app.get('/api/books/:id', function(req, res) {
+  var book = _.where(booksData.books, {id: req.params.id});
+  res.json(book);
 });
 
 app.get('/music/:album_id/:disc_number/:track_number', function(req, res) {
@@ -217,6 +228,10 @@ var generateMovieMetaData = function() {
   });
 
   });
+};
+
+var generateBookMetaData = function() {
+
 };
 
 var generateMusicMetaData = function() {

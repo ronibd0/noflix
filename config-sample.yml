@@ -11,3 +11,7 @@ tv:
   path  : '/path/to/tv/directory'
   api   : 'api.themoviedb.org/3'
   key   : '<api_key>'
+books:
+  path  : '/path/to/books/directory'
+  api   : 'googleapis.com/books/v1'
+  key   : '<api_key>'

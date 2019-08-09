@@ -1,34 +1,52 @@
 import React, { Component } from 'react'
+
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as booksActions from '../actions/BooksActions'
+
 import NavBar from '../components/NavBar'
+import ResultsBar from '../components/ResultsBar'
+import Grid from '../components/Grid'
 import FooterBar from '../components/FooterBar'
-import style from '../style/App.css'
-import * as utils from '../utils/utils.js'
 
 class Books extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      files: []
-    };
+  handleSearch(e) {
+    this.props.booksActions.filterBooks(e.target.value)
   }
 
   componentDidMount() {
-    utils.callApi('/api/books')
-      .then(res => this.setState({ files: res }))
-      .catch(err => console.log(err));
+    this.props.booksActions.fetchBooks()
   }
-  
+
   render() {
+    let { displayedBooks } = this.props.booksReducer
+
     return (
       <div>
-        <NavBar type={3}/>
-        <br></br>
-        <p className={style.comingSoon}>🚧</p>
+        <NavBar onChange={this.handleSearch.bind(this)} type={3}/>
+        <br/>
+        <ResultsBar count={displayedBooks.length} type={3}/>
+        <Grid
+          gridData={JSON.stringify(displayedBooks)}
+          type={3}
+        />
+        <br/>
         <FooterBar/>
       </div>
     );
   }
-
 }
 
-export default Books;
+function mapStateToProps(state) {
+  return {
+    booksReducer: state.booksReducer
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    booksActions: bindActionCreators(booksActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Books)

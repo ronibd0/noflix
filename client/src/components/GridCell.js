@@ -50,6 +50,12 @@ class GridCell extends React.Component {
         cellSubtitle = parseInt(cellData.air_date)
         cellBackground = cellData.season.poster_path
         break;
+      case type.BOOKS:
+        cellWidth = 140
+        cellHeight = 200
+        cellTitle = cellData.title
+        cellSubtitle = parseInt(cellData.release_date)
+        cellBackground = cellData.book_cover
       default:
         break;
     }
