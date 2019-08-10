@@ -46,21 +46,13 @@ app.get('/api/movies', (req, res) => {
   res.json(moviesData.movies);
 });
 
-app.get('/api/music', (req, res) => {
-  res.json(musicData.music)
-});
-
-app.get('/api/tv', (req, res) => {
-  res.json(tvData.tv)
-});
-
-app.get('/api/books', (req, res) => {
-  res.json(booksData.books);
-});
-
 app.get('/api/movies/:id', function(req, res) {
   var movie = _.where(moviesData.movies, {id: parseInt(req.params.id)});
   res.json(movie);
+});
+
+app.get('/api/music', (req, res) => {
+  res.json(musicData.music)
 });
 
 app.get('/api/music/albums/:id', function(req, res) {
@@ -68,13 +60,22 @@ app.get('/api/music/albums/:id', function(req, res) {
   res.json(album);
 });
 
+app.get('/api/tv', (req, res) => {
+  res.json(tvData.tv)
+});
+
 app.get('/api/tv/seasons/:id', function(req, res) {
   var season = _.where(tvData.tv, {id: req.params.id});
   res.json(season);
 });
 
+app.get('/api/books', (req, res) => {
+  res.json(booksData.books);
+});
+
 app.get('/api/books/:id', function(req, res) {
-  var book = _.where(booksData.books, {id: req.params.id});
+  //TODO
+  var book = _.where(booksData.books, {items[0]['volumeInfo']['industryIdentifiers'].identifier[0]: parseInt(req.params.id)});
   res.json(book);
 });
 
@@ -135,13 +136,17 @@ if (process.env.NODE_ENV == 'prod'){
 }
 
 var generateMetaData = function(){
-  generateMusicMetaData()
-    .then(function(result) { 
-      return generateMovieMetaData();
-    })
-    .then(function(result) { 
-      return generateTVMetaData();
-    });
+  generateBookMetaData();
+  // generateMusicMetaData()
+  //   .then(function(result) { 
+  //     return generateMovieMetaData();
+  //   })
+  //   .then(function(result) { 
+  //     return generateTVMetaData();
+  //   })
+  //   .then(function(result) { 
+  //     return generateBookMetaData();
+  //   });
 }
 
 const generateTVMetaData = async () => {
@@ -231,7 +236,38 @@ var generateMovieMetaData = function() {
 };
 
 var generateBookMetaData = function() {
+  return new Promise(function(resolve, reject) {
 
+  var re = new RegExp(/(\d+)(.pdf|.epub|.mobi)$/); // book_id
+      json = { books: [] };
+
+  console.log('Generating data for Books...')
+  node_dir.files(config.books.path, function(err, files) {
+    if (err) throw err;
+    
+    bluebird.mapSeries(files, function(file){
+    console.log('GET: ' + file);
+    // find book on Google Books
+    return booksClient.send(new lib.requests.Book(file.match(re)[1]), 250, null)
+      .then((book) => {
+      book.fs_path = file;
+      book.url_path = 'http://localhost:' + port + '/books/' + book.items[0].volumeInfo.industryIdentifiers[0].identifier;
+      json.books.push(book);
+      });
+    })
+    .then(function(books){
+      fs.writeFile('./books.json', JSON.stringify(json, 0, 4), 'utf8', (err)=>{
+        if(err) console.log(err)
+        else console.log('[BOOKS] File saved');
+        resolve(json);
+      })
+    })
+    .catch(function(err){
+      console.log('Book metadata could not be generated due to some error', err);
+    });
+  });
+
+  });
 };
 
 var generateMusicMetaData = function() {

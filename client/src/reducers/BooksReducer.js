@@ -50,12 +50,12 @@ export default function book(state = initialState, action) {
           break;
         case 'Oldest':
           sortDisplayedBooks = state.displayedBooks.sort((a,b)=> {
-            return new Date(a.release_date).getTime() - new Date(b.release_date).getTime();
+            return new Date(a.published_date).getTime() - new Date(b.published_date).getTime();
           })
           break;
         case 'Newest':
           sortDisplayedBooks = state.displayedBooks.sort((a,b)=> {
-            return new Date(b.release_date).getTime() - new Date(a.release_date).getTime();
+            return new Date(b.published_date).getTime() - new Date(a.published_date).getTime();
           })
           break;
         default:

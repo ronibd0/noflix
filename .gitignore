@@ -5,6 +5,7 @@ config.yml
 movies.json
 music.json
 tv.json
+books.json
 /backup
 
 # lock files
@@ -19,6 +20,7 @@ node_modules/
 
 # production
 /build
+client/public/bundle.js
 
 # misc
 .DS_Store

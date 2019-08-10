@@ -4,6 +4,7 @@ import GridCell from './GridCell'
 import MovieDetail from './MovieDetail'
 import AlbumDetail from './AlbumDetail'
 import SeasonDetail from './SeasonDetail'
+import BookDetail from './BookDetail'
 import style from '../style/App.css'
 
 class Grid extends React.Component {
@@ -65,6 +66,9 @@ class Grid extends React.Component {
         break;
       case type.TV:
         grid.push(<SeasonDetail selected_element={this.state.selected_element} detailData={detailData}/>)
+        break;
+      case type.BOOKS:
+        grid.push(<BookDetail selected_element={this.state.selected_element} detailData={detailData}/>)
         break;
       default:
         break;

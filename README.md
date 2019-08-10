@@ -69,6 +69,12 @@ Tracks not found on Spotify can be put in a directory titled `Unknown Album` san
  - (tv_show_directory_name <TMDb-tv-ID>)  
    - (S<season_number>E<episode_number> episode_file_name) (.mp4|.mkv)
 ```
+📚 **Books**  
+```
+<books_path>  
+ - (subdirectory)?  
+   - (book_file_name <ISBN-10>) (.pdf|.epub|.mobi)
+```
 ## Generating metadata
 
 Server requires `<media>.json` file data at startup. Initial json state should be empty
@@ -101,10 +107,12 @@ From the base directory, run `yarn start`
 **GET** `/music/:album_id/:disc_number/:track_number`  
 **GET** `/api/tv/seasons/:id`  
 **GET** `/tv/:show_id/:season_number/:episode_number`  
+**GET** `/api/books`  
+**GET** `/api/books/:id` 
 
 ### Client-side
 
-`/movies`, `/music`, `/tv` are accessible. `/books`, `/comics`, `/podcasts` are TODO
+`/movies`, `/music`, `/tv`, `/books` are accessible. `/comics` and `/podcasts` are TODO
 
 # Development
 

@@ -28,17 +28,17 @@ export function fetchBooks() {
         var data = [];
         for (var i = 0; i < items.length; i++) {
           data.push({
-            googlebooks_id: items[i].id, 
-            isbn_10: items[i].isbn_10, 
-            isbn_13: items[i].isbn_13,
-            title: items[i].title, 
-            authors: items[i].authors,
-            publisher: items[i].publisher, 
-            description: items[i].description, 
-            page_count: items[i].page_count, 
-            categories: items[i].categories,
-            thumbnail: items[i].thumbnail, 
-            published_date: items[i].published_date
+            googlebooks_id: items[i].items[0].id, 
+            isbn_10: items[i].items[0].volumeInfo.industryIdentifiers[0].identifier, 
+            isbn_13: items[i].items[0].volumeInfo.industryIdentifiers[1].identifier,
+            title: items[i].items[0].volumeInfo.title, 
+            authors: items[i].items[0].volumeInfo.authors,
+            publisher: items[i].items[0].volumeInfo.publisher, 
+            published_date: items[i].items[0].volumeInfo.description,
+            description: items[i].items[0].volumeInfo.description, 
+            page_count: items[i].items[0].volumeInfo.pageCount, 
+            categories: items[i].items[0].volumeInfo.categories,
+            thumbnail: items[i].items[0].volumeInfo.imageLinks.thumbnail
           });
         }
         dispatch(receiveBooks(data))
