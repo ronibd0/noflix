@@ -1,12 +1,15 @@
 {
   "name": "homehost-server",
   "version": "1.5.0",
+  "private": true,
   "author": "ridhwaans",
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=dev nodemon server",
     "client-dev": "cd ../client && npm start",
-    "start-dev": "concurrently --kill-others-on-fail \"npm run dev\" \"npm run client-dev\""
+    "start-dev": "concurrently --kill-others-on-fail \"npm run dev\" \"npm run client-dev\"",
+    "prestart": "cd ../client && npm install && npm run build",
+    "start": "NODE_ENV=prod node server"
   },
   "dependencies": {
     "axios": "^0.21.1",
