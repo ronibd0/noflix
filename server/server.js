@@ -15,7 +15,7 @@ var moviesData = require('./data/movies.json'); // or fs.readFileSync + JSON.par
 var musicData =  require('./data/music.json'); 
 var tvData =  require('./data/tv.json'); 
 
-var watcher = chokidar.watch([process.env.MOVIES_PATH, process.env.TV_PATH, process.env.MUSIC_PATH], {
+var watcher = chokidar.watch(['./demo'], {
   ignored: /(^|[\/\\])\../, // ignore dotfiles
   persistent: true
 });
@@ -178,8 +178,8 @@ app.get('/movies/:id', (req, res) => {
     .filter(movie => movie.id == parseInt(req.params.id))
     .map(movie => movie.fs_path).toString();
     
-  const path = movie_fs_path
-  const stat = fs.statSync(path)
+  movie_fs_path = path.resolve(__dirname, movie_fs_path)
+  const stat = fs.statSync(movie_fs_path)
   const fileSize = stat.size
   const range = req.headers.range
   if (range) {
@@ -189,7 +189,7 @@ app.get('/movies/:id', (req, res) => {
       ? parseInt(parts[1], 10)
       : fileSize-1
     const chunksize = (end-start)+1
-    const file = fs.createReadStream(path, {start, end})
+    const file = fs.createReadStream(movie_fs_path, {start, end})
     const head = {
       'Content-Range': `bytes ${start}-${end}/${fileSize}`,
       'Accept-Ranges': 'bytes',
@@ -204,7 +204,7 @@ app.get('/movies/:id', (req, res) => {
       'Content-Type': 'video/mp4',
     }
     res.writeHead(200, head)
-    fs.createReadStream(path).pipe(res)
+    fs.createReadStream(movie_fs_path).pipe(res)
   }
 });
 
@@ -215,8 +215,8 @@ app.get('/tv/:tv_id/:season_number/:episode_number', (req, res) => {
     .episodes.find(episode => episode.episode_number == parseInt(req.params.episode_number))
     .fs_path.toString();
 
-  const path = episode_fs_path
-  const stat = fs.statSync(path)
+  episode_fs_path = path.resolve(__dirname, episode_fs_path)
+  const stat = fs.statSync(episode_fs_path)
   const fileSize = stat.size
   const range = req.headers.range
   if (range) {
@@ -226,7 +226,7 @@ app.get('/tv/:tv_id/:season_number/:episode_number', (req, res) => {
       ? parseInt(parts[1], 10)
       : fileSize-1
     const chunksize = (end-start)+1
-    const file = fs.createReadStream(path, {start, end})
+    const file = fs.createReadStream(episode_fs_path, {start, end})
     const head = {
       'Content-Range': `bytes ${start}-${end}/${fileSize}`,
       'Accept-Ranges': 'bytes',
@@ -241,7 +241,7 @@ app.get('/tv/:tv_id/:season_number/:episode_number', (req, res) => {
       'Content-Type': 'video/mp4',
     }
     res.writeHead(200, head)
-    fs.createReadStream(path).pipe(res)
+    fs.createReadStream(episode_fs_path).pipe(res)
   }
 });
 
@@ -251,8 +251,8 @@ app.get('/music/:album_id/:disc_number/:track_number', (req, res) => {
     .tracks.items.filter(item => item.disc_number == parseInt(req.params.disc_number) && item.track_number == parseInt(req.params.track_number))
     .map(track => track.fs_path).toString();
 
-    const filePath = track_fs_path
-    var stat = fs.statSync(filePath);
+    track_fs_path = path.resolve(__dirname, track_fs_path)
+    var stat = fs.statSync(track_fs_path);
     var total = stat.size;
     if (req.headers.range) {
         var range = req.headers.range;
@@ -263,7 +263,7 @@ app.get('/music/:album_id/:disc_number/:track_number', (req, res) => {
         var start = parseInt(partialstart, 10);
         var end = partialend ? parseInt(partialend, 10) : total-1;
         var chunksize = (end-start)+1;
-        var readStream = fs.createReadStream(filePath, {start: start, end: end});
+        var readStream = fs.createReadStream(track_fs_path, {start: start, end: end});
         res.writeHead(206, {
             'Content-Range': 'bytes ' + start + '-' + end + '/' + total,
             'Accept-Ranges': 'bytes', 'Content-Length': chunksize,
@@ -272,7 +272,7 @@ app.get('/music/:album_id/:disc_number/:track_number', (req, res) => {
         readStream.pipe(res);
      } else {
         res.writeHead(200, { 'Content-Length': total, 'Content-Type': 'audio/mpeg' });
-        fs.createReadStream(filePath).pipe(res);
+        fs.createReadStream(track_fs_path).pipe(res);
      }
 
 });
