@@ -1,6 +1,6 @@
-<h2 align="center"> homehost </h2>
+<h2 align="center"> noflix </h2>
 
-<h3 align="center"> homehost is made for streaming your media collection within the home network </h3>
+<h3 align="center"> noflix is made for streaming your media collection within the home network </h3>
 <h4 align="center"> Features: 🎥 Movies, 📺 TV Shows, 🎵 Music, 📚 Books, 📒 Comics, 🎙️ Podcasts </h4>
 
   * [🎥 Movies](#-movies)
