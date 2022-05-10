@@ -1,8 +1,8 @@
 {
-  "name": "homehost-server",
-  "version": "1.9.0",
+  "name": "noflix-server",
+  "version": "1.0.0",
   "private": true,
-  "author": "ridhwaans",
+  "author": "ronibd0",
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=dev nodemon server",
