@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use('/', require('./routes'));
 
-console.log(figlet.textSync('homehost'));
+console.log(figlet.textSync('noflix');
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 console.log(`Current NODE_ENV is ${process.env.NODE_ENV}`);
